@@ -1,0 +1,32 @@
+mode_211
+enable_trace
+establish_context
+card_connect
+
+select -AID a000000003000000
+
+// security 3 : tunnel avec chiffrement et code MAC
+// keyind 0 : numéro de la clef (index)
+// keyver 0 : version de la clef (osef)
+// enc_key : clef 
+open_sc -security 1 -keyind 0 -keyver 0 -mac_key 404142434445464748494a4b4c4d4e4f -enc_key 404142434445464748494a4b4c4d4e4f
+
+delete -AID 01020304050607080900
+delete -AID 0102030405060708090004
+delete -AID 0102030405060708090001
+delete -AID 0102030405060708090003
+delete -AID 0102030405060708090008
+
+install_for_load -sdAID A000000003000000 -pkgAID 01020304050607080900 -sdAID A000000003000000
+load -file main.cap
+
+install_for_install -instParam 00 -priv 2 -pkgAID 01020304050607080900 -AID 0102030405060708090001 -instAID 0102030405060708090001
+
+install_for_install -instParam 00 -priv 2 -pkgAID 01020304050607080900 -AID 0102030405060708090004 -instAID 0102030405060708090004
+
+install_for_install -instParam 00 -nvDataLimit 1000 -priv 2 -pkgAID 01020304050607080900 -AID 0102030405060708090003 -instAID 0102030405060708090003
+
+install_for_install -instParam 00 -priv 2 -pkgAID 01020304050607080900 -AID 0102030405060708090008 -instAID 0102030405060708090008
+
+card_disconnect
+release_context

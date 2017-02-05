@@ -1,0 +1,56 @@
+https://www.quora.com/Step-by-step-How-does-a-EMV-contact-card-payment-work
+source: http://www.openscdp.org/scripts/tutorial/emv/Terminal Action Analysis.html
+http://stackoverflow.com/questions/33776602/generate-ac-cryptogram-manually
+http://www.openscdp.org/scripts/tutorial/emv/cardactionanalysis.html
+http://nicolas.riousset.com/category/software-methodologies/example-of-a-mastercard-paypass-contactless-transaction/
+https://people.dsv.su.se/~jary4935/abtpd/walletappletcode.html
+
+///////////////////////// DECODEUR DE APDU ///////////////////////////////////////////////////////
+//
+//
+//
+//	https://tvr-decoder.appspot.com/t/decode/constructed/EMV/77299f2701009f360200419f2608c74d18b08248fefc9f10120110201009248400000000000000000029ff
+//
+//
+//
+/////////////////////////////////////////////////////////////////////////////////////
+
+MAESTRO:6f298407a0000000043060a51e50074d41455354524f5f2d046465656e9f38039f5c08bf0c059f4d020b0a
+
+NFC MASTERCARD:6F23840E325041592E5359532E4444463031A511BF0C0E610C4F07A0000000041010870101840E325041592E5359532E4444463031A511BF0C0E610C4F07A0000000041010870101BF0C0E610C4F07A0000000041010870101610C4F07A00000000410108701014F07A0000000041010870101
+
+
+
+Card Risk Management Data Object List 1 (CDOL1): 9F02069F030695055F2A029A039C019F37049F4C089F4502
+  // Tag - Length - Meaning
+  9f02 - 06 - Authorised amount of the transaction (excluding adjustments)
+  9f03 - 06 - Secondary amount associated with the transaction representing a cashback amount
+  95 - 05 - Terminal Verification Results
+  5f2a - 02 - Transaction Currency Code
+  9a - 03 - Transaction Date
+  9c - 01 - Transaction Type
+  9f37 - 04 - Unpredictable Number
+  9f4c - 08 - ICC Dynamic Number
+  9f45 - 02 - Data Authentication Code
+
+
+
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+
+var authorisedAmount = new ByteString("000000000001", HEX);
+var secondaryAmount = new ByteString("000000000000", HEX);
+var tvr = new ByteString("0000000000", HEX);
+var transCurrencyCode = new ByteString("0978", HEX);
+var transDate = new ByteString("090730", HEX);
+var transType = new ByteString("21", HEX);
+var unpredictableNumber = crypto.generateRandom(4);
+var iccDynamicNumber = card.sendApdu(0x00, 0x84, 0x00, 0x00, 0x00);
+var DataAuthCode = e.cardDE[0x9F45];
+
+var Data = authorisedAmount.concat(secondaryAmount).concat(tvr).concat(transCurrencyCode).concat(transDate).concat(transType).concat(unpredictableNumber).concat(iccDynamicNumber).concat(DataAuthCode); 
+
+var p1 = 0x40;
+
+var generateAC = card.sendApdu(0x80, 0xAE, p1, 0x00, Data, 0x00);

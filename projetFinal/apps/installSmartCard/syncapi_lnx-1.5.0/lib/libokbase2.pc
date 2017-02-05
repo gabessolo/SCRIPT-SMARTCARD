@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/omnikey
+
+Name: OKBASE2
+Description: OMNIKEY Base components 
+Version: 3.1.0
+Libs: -L${libdir} -lokbase2
+Cflags: -I${includedir}

@@ -1,0 +1,65 @@
+***************************************************************
+
+ Installation instructions for 
+ the OMNIKEY API for synchronous cards (SYNC-API)
+   
+ Version 1.5.0
+
+***************************************************************
+
+------------------------------
+ What it is
+------------------------------
+
+You need this API in order to have access to synchronous cards.
+This version currently supports 2-Wire-, 3-Wire- and I2C-Bus-Cards.
+
+------------------------------
+ What you need
+------------------------------
+
+[1] PCSCLite Version >= 1.2.9-beta7 available at 
+    http://www.linuxnet.com/ 
+      and/or 
+    http://alioth.debian.org/projects/pcsclite/
+
+[2] PCSC driver for CardMan devices that supports this API.
+    It is recommended that you download the latest version from
+    http://www.omnikey.com
+    
+------------------------------
+ SYNC-API Installation
+------------------------------
+
+After you have downloaded the tarball extract it in any directory.
+ 
+  # tar -xzvf syncapi_lnx-1.5.0.tar.gz
+
+change to the created directory and ensure to run the installation
+script as user root.
+  
+  # ./install
+
+This script checks if PCSCLite is installed and
+it copies all necessary files under the tree
+/usr/local
+
+If you use the package config tool the
+installation script additionally copies 
+the pkg-info-file to /usr/local/lib/pkgconfig.
+
+If you like to install the files in another directory,
+for example to /home/mysyncapi, you can achieve
+this simply by typing the following.
+
+  # ./install -prefix /home/mysyncapi
+  
+------------------------------
+! Note                       !
+------------------------------
+
+1. Ensure that PCSC-Lite is configured with the options
+   --enable-libusb and --enable-extendedapdu.
+   Moreover it is also necessary to install libusb
+   AND its corresponding development sources package that
+   is e.g. for DEBIAN libusb-dev or for MANDRIVA libusb-devel

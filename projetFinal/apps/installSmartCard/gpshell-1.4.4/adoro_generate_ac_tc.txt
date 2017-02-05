@@ -1,0 +1,9 @@
+mode_211
+establish_context
+enable_trace
+enable_timer
+card_connect
+send_apdu -sc 0 -APDU 00A404000E315041592E5359532E444446303100 
+send_apdu -sc 0 -APDU 00AE500000  
+card_disconnect
+release_context

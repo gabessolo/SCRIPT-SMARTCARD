@@ -1,0 +1,6 @@
+pcscd-hotplug_libusb.o: hotplug_libusb.c /usr/include/stdc-predef.h \
+ ../config.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:

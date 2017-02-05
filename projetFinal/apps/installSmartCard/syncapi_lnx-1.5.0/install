@@ -1,0 +1,283 @@
+#!/bin/bash
+
+########################################################################################################
+# usage
+########################################################################################################
+function usage()
+{  
+  echo "Usage: $0 [-h | -prefix [<path>]]" 
+  exit -1
+}
+
+########################################################################################################
+# searchPCSC
+########################################################################################################
+function searchPCSC()
+{
+local RETCODE=0
+
+  pcscd_location=`which pcscd 2>/dev/null`
+  if [ "$pcscd_location" != "" ]; then
+    return $RETCODE
+  fi
+#
+# Try to find pcscd manually in different locations
+#
+  if [ -x /sbin/pcscd ]; then
+    pcscd_location=/sbin/pcscd
+  elif [ -x /usr/sbin/pcscd ]; then
+    pcscd_location=/usr/sbin/pcscd
+  elif [ -x /usr/local/sbin/pcscd ]; then
+    pcscd_location=/usr/local/sbin/pcscd
+  else
+    RETCODE=1
+  fi
+
+  return $RETCODE
+}
+
+########################################################################################################
+# checkPCSCVersion
+########################################################################################################
+function checkPCSCVersion()
+{
+local RETCODE=0
+local PCSC_VERSION
+local PCSC_MAJ
+local PCSC_MIN
+local PCSC_FIN
+local PCSC_BETA
+
+  if [ -z $pcscd_location ]; then
+    RETCODE=1
+    return $RETCODE
+  fi
+
+  PCSC_VERSION=`$pcscd_location --version | head -1 | cut -f3 -d\ `
+  PCSC_MAJ=`echo $PCSC_VERSION | cut -f1 -d.`
+  PCSC_MIN=`echo $PCSC_VERSION | cut -f2 -d.`
+  PCSC_FIN=`echo $PCSC_VERSION | cut -f3 -d. | cut -f1 -d-`
+  if [ -n "$pcscd_refbeta" ]; then
+    PCSC_BETA=`echo $PCSC_VERSION | cut -f2 -d- | cut -f1 -d. | awk '/beta./{print substr($0,length("beta")+1)}'`
+  fi
+    
+  if [ -z "$PCSC_BETA" ]; then
+    echo "Found PCSC version $PCSC_MAJ.$PCSC_MIN.$PCSC_FIN in $pcscd_location"
+  else
+    echo "Found PCSC version $PCSC_MAJ.$PCSC_MIN.$PCSC_FIN beta$PCSC_BETA in $pcscd_location"
+  fi
+
+  if [ -n "$PCSC_BETA" ]; then
+    if [ \( \( $PCSC_MAJ -eq $pcscd_refmaj \) -a \( $PCSC_MIN -eq $pcscd_refmin \) -a \( $PCSC_FIN -eq $pcscd_reffin \) -a \( $PCSC_BETA -ge $pcscd_refbeta \) \) \
+         -o \
+          \( \( $PCSC_MAJ -eq $pcscd_refmaj \) -a \( $PCSC_MIN -eq $pcscd_refmin \) -a \( $PCSC_FIN -gt $pcscd_reffin \) \) \
+         -o \
+         \( \( $PCSC_MAJ -eq $pcscd_refmaj \) -a \( $PCSC_MIN -gt $pcscd_refmin \) \) \
+         -o \( $PCSC_MAJ -gt $pcscd_refmaj \) ]; then
+      return $RETCODE
+    fi
+    else  
+    if [ \( \( $PCSC_MAJ -eq $pcscd_refmaj \) -a \( $PCSC_MIN -eq $pcscd_refmin \) -a \( $PCSC_FIN -ge $pcscd_reffin \) \) \
+         -o \
+         \( \( $PCSC_MAJ -eq $pcscd_refmaj \) -a \( $PCSC_MIN -gt $pcscd_refmin \) \) \
+         -o \( $PCSC_MAJ -gt $pcscd_refmaj \) ]; then
+      return $RETCODE
+    fi
+  fi
+  
+  RETCODE=1
+
+  return $RETCODE
+}
+
+########################################################################################################
+# isPathWithinPath
+# Arg 1 : Pathvariable
+# Arg 2 : Path to find
+########################################################################################################
+function isPathWithinPath()
+{
+local RETCODE=0
+local FUNCRETCODE
+
+if [ $# -ne 2 ]; then
+  return $RETCODE
+fi
+
+FUNCRETCODE=`echo "$2:$1"|awk -F: '{for (i=2;i<=NF;i++){ if ($i == $1) print $i;} }'`
+
+if [ ! -z "$FUNCRETCODE" ]; then
+  RETCODE=1
+fi
+
+return $RETCODE
+}
+
+########################################################################################################
+# Start of script
+########################################################################################################
+
+if [ $UID -ne "0" ]; then
+  echo "You have to be root to run this script!"
+  exit -1;
+fi
+
+echo
+echo "Omnikey Synchronous Card API v1.5.0 installation"
+echo
+
+ARCH=linux
+
+PREFIX=/usr/local
+SOBASENAME=libsyncapi
+OKBASESOBASENAME=libokbase2
+PREFIXCHANGED=0
+
+if [ "$1" == "-h" ]; then
+  usage
+fi
+
+if [ "$1" == "-prefix" ]; then
+  if  [ ! -z $2 ]; then
+    if [ -d $2 ]; then
+        PREFIX=$2
+        PREFIXCHANGED=1
+   else
+     echo "$2  is not a directory!"
+     exit -1;
+   fi
+  else
+   usage
+  fi
+fi
+#
+# Check PC/SCLite version
+#
+if [ "${ARCH}" == "linux"  ]; then
+pcscd_refmaj=1
+pcscd_refmin=2
+pcscd_reffin=9
+pcscd_refbeta=7
+
+pcscd_req_ver=$pcscd_refmaj.$pcscd_refmin.$pcscd_reffin
+if [ -n "$pcscd_refbeta" ]; then
+  pcscd_req_ver="$pcscd_refmaj.$pcscd_refmin.$pcscd_reffin beta$pcscd_refbeta"
+fi
+
+searchPCSC
+if [ $? -ne 0 ]; then
+  echo PC/SCLite is not installed.
+  echo Go visit www.alioth.debian.org
+  echo and install at least version $pcscd_req_ver of PC/SCLite.
+  exit -1
+fi
+
+checkPCSCVersion
+if [ $? -ne 0 ]; then
+  echo Install at least version $pcscd_req_ver of pcsc-lite.
+  exit -1
+fi
+fi
+#
+# Set switches
+#
+if [ "$ARCH" == "linux" ]; then
+  SOEXT=so
+  CPOPTS=-a
+	SEDOPTS=-r
+fi
+if [ "$ARCH" == "darwin" ]; then
+  SOEXT=dylib
+  CPOPTS=-RP
+	SEDOPTS=-E
+fi
+#
+# Copy libraries
+#
+echo "Copying shared library to  ${PREFIX}/lib"
+
+if [ ! -d ${PREFIX}/lib ]; then
+  mkdir -p ${PREFIX}/lib
+fi
+
+if [ "$ARCH" == "linux" ]; then
+  cp ${CPOPTS} ./lib/${SOBASENAME}.${SOEXT}*  ${PREFIX}/lib
+fi
+
+if [ "$ARCH" == "darwin" ]; then
+  cp ${CPOPTS} ./lib/${SOBASENAME}.*${SOEXT}  ${PREFIX}/lib
+fi
+
+if [ "$ARCH" == "linux" ]; then
+  cp ${CPOPTS} ./lib/${OKBASESOBASENAME}.${SOEXT}*  ${PREFIX}/lib
+  cp ${CPOPTS} ./lib/${OKBASESOBASENAME}.a  ${PREFIX}/lib
+  cp ${CPOPTS} ./lib/${OKBASESOBASENAME}.la  ${PREFIX}/lib
+fi
+  
+if [ ${PREFIXCHANGED} -eq 1 ]; then
+    XPREFIX=`echo ${PREFIX} | sed -e 's/\//\\\\\//g'`;
+    cat ./lib/${SOBASENAME}.pc.in | sed ${SEDOPTS} 's/^prefix=.*$/prefix='${XPREFIX}'/' > ./lib/${SOBASENAME}.pc
+    cat ./lib/${OKBASESOBASENAME}.pc.in | sed ${SEDOPTS} 's/^prefix=.*$/prefix='${XPREFIX}'/' > ./lib/${OKBASESOBASENAME}.pc
+else
+   cp ./lib/${SOBASENAME}.pc.in ./lib/${SOBASENAME}.pc
+   cp ./lib/${OKBASESOBASENAME}.pc.in ./lib/${OKBASESOBASENAME}.pc
+fi
+#
+# Copy PC files
+#
+echo "Copying package config info file to ${PREFIX}/lib/pkgconfig"
+
+if [ ! -d ${PREFIX}/lib/pkgconfig ]; then
+  mkdir -p ${PREFIX}/lib/pkgconfig
+fi
+
+cp ./lib/*.pc ${PREFIX}/lib/pkgconfig/
+#
+# Update information for LDCONFIG
+#
+if [ "$ARCH" == "linux" ]; then
+LDCONFIGFILE="/etc/ld.so.conf"
+echo "Checking ldconfig library path"
+if [ -f $LDCONFIGFILE ]; then
+  grep -xq "${PREFIX}/lib" $LDCONFIGFILE
+  if [ $? -ne 0 ]; then
+    echo "Adding ${PREFIX}/lib to ldconfig library path"
+    cat > $LDCONFIGFILE << eofconf
+${PREFIX}/lib
+eofconf
+  fi
+else
+  echo "Warning: Could not find $LDCONFIGFILE"
+  echo "Please add ${PREFIX}/lib manually to ldconfig library path"
+fi
+
+echo "Updating libray cache"
+LDCONFIG="/sbin/ldconfig"
+if [ -z "$LDCONFIG" ]; then
+  echo "Warning: Could not find ldconfig"
+else
+  $LDCONFIG
+fi
+fi
+#
+# Update PKG_CONFIG_PATH
+#
+echo Searching for '$PKG_CONFIG_PATH'
+if [ ! -z "$PKG_CONFIG_PATH" ]; then
+isPathWithinPath $PKG_CONFIG_PATH ${PREFIX}/lib/pkgconfig
+  if [ $? -ne 1 ]; then
+    echo Warning: Add pkg-config path ${PREFIX}/lib/pkgconfig to environment variable '$PKG_CONFIG_PATH' !
+  fi
+else
+  echo Warning: Add pkg-config path ${PREFIX}/lib/pkgconfig to environment variable '$PKG_CONFIG_PATH' !
+fi
+
+echo "Copying header files to ${PREFIX}/include"
+mkdir -p ${PREFIX}/include
+cp ./include/*.h ${PREFIX}/include
+
+echo "Copying documentation to ${PREFIX}/doc"
+mkdir -p ${PREFIX}/doc
+cp ${CPOPTS} ./hlp/*.pdf  ${PREFIX}/doc
+
+echo Done!

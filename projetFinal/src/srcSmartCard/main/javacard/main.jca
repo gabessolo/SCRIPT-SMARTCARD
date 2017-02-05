@@ -1,0 +1,1456 @@
+// converted by version 1.3
+// on Wed Feb 20 18:20:14 CET 2013
+
+.package main {
+	.aid 0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0;
+	.version 1.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.3;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x2 1.3;		//javacard/security
+		0xA0:0x0:0x0:0x0:0x62:0x2:0x1 1.3;		//javacardx/crypto
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+	}
+
+	.applet {
+		0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0:0x1 gen_random;
+		0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0:0x4 Cypher;
+		0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0:0x8 PIN;
+		0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0:0x3 StoreID;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef 1.16 Cypher/kp;
+		// 1
+		instanceFieldRef 1.2 Cypher/privKey;
+		// 2
+		instanceFieldRef 1.3 Cypher/pubKey;
+		// 3
+		instanceFieldRef boolean PIN/pin_retrieved;
+		// 4
+		instanceFieldRef boolean PIN/puk_retrieved;
+		// 5
+		instanceFieldRef byte[] StoreID/login;
+		// 6
+		instanceFieldRef byte[] StoreID/delimiter;
+		// 7
+		instanceFieldRef byte[] StoreID/pwd;
+		// 8
+		instanceFieldRef byte[] StoreID/tmpPwd;
+		// 9
+		instanceFieldRef short[] StoreID/dataLen;
+		// 10
+		instanceFieldRef boolean[] StoreID/unlocked;
+		// 11
+		instanceFieldRef short[] gen_random/lg;
+		// 12
+		staticMethodRef Cypher/<init>()V;
+		// 13
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 14
+		classRef 0.12;		// javacard/framework/APDUException
+		// 15
+		classRef 3.10;		// java/lang/SecurityException
+		// 16
+		virtualMethodRef 0.10.1()[B;		// getBuffer()[B
+		// 17
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 18
+		virtualMethodRef 0.10.6()S;		// setIncomingAndReceive()S
+		// 19
+		staticMethodRef 2.1.0(BZ)Ljavacardx/crypto/Cipher;;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+			.descriptor	Ljavacardx/crypto/Cipher;	2.1;
+
+		// 20
+		virtualMethodRef 2.1.3(Ljavacard/security/Key;B)V;		// init(Ljavacard/security/Key;B)V
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 21
+		virtualMethodRef 2.1.1([BSS[BS)S;		// doFinal([BSS[BS)S
+		// 22
+		virtualMethodRef 0.10.7()S;		// setOutgoing()S
+		// 23
+		virtualMethodRef 0.10.9(S)V;		// setOutgoingLength(S)V
+		// 24
+		virtualMethodRef 0.10.5([BSS)V;		// sendBytesLong([BSS)V
+		// 25
+		virtualMethodRef 1.12.1()S;		// getReason()S
+		// 26
+		staticMethodRef PIN/getState()S;
+		// 27
+		virtualMethodRef 0.10.8(SS)V;		// setOutgoingAndSend(SS)V
+		// 28
+		classRef 1.9;		// javacard/security/RSAPublicKey
+		// 29
+		staticFieldRef 0.9 PIN/pin;
+		// 30
+		virtualMethodRef 0.9.1([BSB)Z;		// check([BSB)Z
+		// 31
+		classRef 0.9;		// javacard/framework/OwnerPIN
+		// 32
+		staticMethodRef 0.9.0(BB)V;		// javacard/framework/OwnerPIN.<init>(BB)V
+		// 33
+		virtualMethodRef 0.9.8([BSB)V;		// update([BSB)V
+		// 34
+		staticFieldRef 0.9 PIN/puk;
+		// 35
+		staticMethodRef 1.16.0(BS)V;		// javacard/security/KeyPair.<init>(BS)V
+		// 36
+		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 37
+		classRef PIN;
+		// 38
+		staticMethodRef PIN/<init>()V;
+		// 39
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 40
+		virtualMethodRef 0.9.2()B;		// getTriesRemaining()B
+		// 41
+		virtualMethodRef 0.9.4()Z;		// isValidated()Z
+		// 42
+		classRef 3.2;		// java/lang/Exception
+		// 43
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 44
+		virtualMethodRef 0.9.6()V;		// resetAndUnblock()V
+		// 45
+		staticMethodRef gen_random/genRandom([BS)V;
+		// 46
+		virtualMethodRef 1.16.1()V;		// genKeyPair()V
+		// 47
+		virtualMethodRef 1.16.2()Ljavacard/security/PrivateKey;;		// getPrivate()Ljavacard/security/PrivateKey;
+			.descriptor	Ljavacard/security/PrivateKey;	1.2;
+
+		// 48
+		classRef 1.12;		// javacard/security/CryptoException
+		// 49
+		virtualMethodRef 1.16.3()Ljavacard/security/PublicKey;;		// getPublic()Ljavacard/security/PublicKey;
+			.descriptor	Ljavacard/security/PublicKey;	1.3;
+
+		// 50
+		staticMethodRef 0.8.15(SB)[S;		// javacard/framework/JCSystem.makeTransientShortArray(SB)[S
+		// 51
+		classRef 1.16;		// javacard/security/KeyPair
+		// 52
+		staticMethodRef 0.8.12(SB)[Z;		// javacard/framework/JCSystem.makeTransientBooleanArray(SB)[Z
+		// 53
+		staticMethodRef 0.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 54
+		classRef StoreID;
+		// 55
+		staticMethodRef StoreID/<init>()V;
+		// 56
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 57
+		classRef 3.7;		// java/lang/NullPointerException
+		// 58
+		classRef 3.5;		// java/lang/ArrayIndexOutOfBoundsException
+		// 59
+		classRef 0.14;		// javacard/framework/TransactionException
+		// 60
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 61
+		staticMethodRef 0.16.1([BS[BSS)S;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+		// 62
+		staticMethodRef 1.14.0(B)Ljavacard/security/RandomData;;		// javacard/security/RandomData.getInstance(B)Ljavacard/security/RandomData;
+			.descriptor	Ljavacard/security/RandomData;	1.14;
+
+		// 63
+		staticFieldRef 1.14 gen_random/rng;
+		// 64
+		classRef Cypher;
+		// 65
+		classRef 0.13;		// javacard/framework/SystemException
+		// 66
+		classRef 3.6;		// java/lang/NegativeArraySizeException
+		// 67
+		classRef gen_random;
+		// 68
+		staticMethodRef gen_random/<init>()V;
+		// 69
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 70
+		virtualMethodRef 1.14.1([BSS)V;		// generateData([BSS)V
+		// 71
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+	}
+
+	.class public Cypher 0 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private 1.2 privKey 0;		// Ljavacard/security/PrivateKey;
+			private 1.3 pubKey 1;		// Ljavacard/security/PublicKey;
+			private 1.16 kp 2;		// Ljavacard/security/KeyPair;
+			public static final byte CLA_MONAPPLET = -80;		// B
+			public static final byte INS_CIPHER = 0;		// B
+			public static final byte INS_UNCIPHER = 1;		// B
+			private static final byte INS_GET_EXPONENT = 2;		// B
+			private static final byte INS_GET_MODULUS = 3;		// B
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 5;
+			.locals 1;
+
+				L0:	aload_0;
+					invokespecial 36;		// javacard/framework/Applet.<init>()V
+				L1:	aload_0;
+					new 51;		// javacard/security/KeyPair
+					dup;
+					sconst_2;
+					sspush 1024;
+					invokespecial 35;		// javacard/security/KeyPair.<init>(BS)V
+					putfield_a 0;		// reference main/Cypher.kp
+					getfield_a_this 0;		// reference main/Cypher.kp
+					invokevirtual 46;		// genKeyPair()V
+					aload_0;
+					getfield_a_this 0;		// reference main/Cypher.kp
+					invokevirtual 47;		// getPrivate()Ljavacard/security/PrivateKey;
+					putfield_a 1;		// reference main/Cypher.privKey
+					aload_0;
+					getfield_a_this 0;		// reference main/Cypher.kp
+					invokevirtual 49;		// getPublic()Ljavacard/security/PublicKey;
+					putfield_a 2;		// reference main/Cypher.pubKey
+				L2:	goto L4;
+				L3:	astore_1;
+					sspush 16962;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L1 L2 L3 48;
+			}
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 2;
+			.locals 0;
+
+				L0:	new 64;		// main/Cypher
+					dup;
+					invokespecial 12;		// main/Cypher.<init>()V
+					invokevirtual 13;		// register()V
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 6;
+			.locals 5;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 16;		// getBuffer()[B
+					astore_2;
+					sconst_0;
+					sstore 5;
+					aload_0;
+					invokevirtual 17;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_2;
+					sconst_0;
+					baload;
+					bspush -80;
+					if_scmpeq L4;
+				L3:	sspush 28160;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	aload_2;
+					sconst_1;
+					baload;
+					stableswitch L45 0 3 L5 L20 L37 L41;
+				L5:	aload_1;
+					invokevirtual 18;		// setIncomingAndReceive()S
+					sstore_3;
+					bspush 10;
+					sconst_0;
+					invokestatic 19;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					astore 4;
+					aload 4;
+					getfield_a_this 2;		// reference main/Cypher.pubKey
+					sconst_2;
+					invokevirtual 20;		// init(Ljavacard/security/Key;B)V
+					aload 4;
+					aload_2;
+					sconst_5;
+					sload_3;
+					aload_2;
+					sconst_0;
+					invokevirtual 21;		// doFinal([BSS[BS)S
+					sstore 5;
+					aload_1;
+					invokevirtual 22;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 5;
+					invokevirtual 23;		// setOutgoingLength(S)V
+					aload_1;
+					aload_2;
+					sconst_0;
+					sload 5;
+					invokevirtual 24;		// sendBytesLong([BSS)V
+				L6:	goto_w L46;
+				L7:	astore 6;
+					sspush 16964;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L8:	astore 6;
+					aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_2;
+					if_scmpne L10;
+				L9:	sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L10:	aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_4;
+					if_scmpne L12;
+				L11:	sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L12:	aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_5;
+					if_scmpne L14;
+				L13:	sconst_3;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L14:	aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_1;
+					if_scmpne L16;
+				L15:	sconst_4;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L16:	aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_3;
+					if_scmpne L18;
+				L17:	sconst_5;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L18:	sspush 27267;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L19:	astore 6;
+					sspush 16966;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L20:	invokestatic 26;		// main/PIN.getState()S
+					sspush -28672;
+					if_scmpne L22;
+				L21:	aload_1;
+					invokevirtual 18;		// setIncomingAndReceive()S
+					sstore_3;
+					bspush 10;
+					sconst_0;
+					invokestatic 19;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					astore 4;
+					aload 4;
+					getfield_a_this 1;		// reference main/Cypher.privKey
+					sconst_1;
+					invokevirtual 20;		// init(Ljavacard/security/Key;B)V
+					aload 4;
+					aload_2;
+					sconst_5;
+					sload_3;
+					aload_2;
+					sconst_0;
+					invokevirtual 21;		// doFinal([BSS[BS)S
+					sstore 5;
+					aload_1;
+					invokevirtual 22;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload 5;
+					invokevirtual 23;		// setOutgoingLength(S)V
+					aload_1;
+					aload_2;
+					sconst_0;
+					sload 5;
+					invokevirtual 24;		// sendBytesLong([BSS)V
+					goto_w L46;
+				L22:	aload_2;
+					sconst_0;
+					sconst_m1;
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+				L23:	goto_w L46;
+				L24:	astore 6;
+					sspush 16967;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L25:	astore 6;
+					aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_2;
+					if_scmpne L27;
+				L26:	sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L27:	aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_4;
+					if_scmpne L29;
+				L28:	sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L29:	aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_5;
+					if_scmpne L31;
+				L30:	sconst_3;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L31:	aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_1;
+					if_scmpne L33;
+				L32:	sconst_4;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L33:	aload 6;
+					invokevirtual 25;		// getReason()S
+					sconst_3;
+					if_scmpne L35;
+				L34:	sconst_5;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L46;
+				L35:	sspush 27267;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L46;
+				L36:	astore 6;
+					sspush 16969;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L46;
+				L37:	getfield_a_this 2;		// reference main/Cypher.pubKey
+					checkcast 0 28;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
+					astore 6;
+					aload 6;
+					aload_2;
+					sconst_0;
+					invokeinterface 3 28 4;		// javacard/security/RSAPublicKey
+					sstore_3;
+					aload_1;
+					sconst_0;
+					sload_3;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+				L38:	goto L46;
+				L39:	astore 6;
+					sspush 16962;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L46;
+				L40:	astore 6;
+					sspush 16963;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L46;
+				L41:	getfield_a_this 2;		// reference main/Cypher.pubKey
+					checkcast 0 28;		// T_CLASSORINTERFACE javacard/security/RSAPublicKey
+					astore 6;
+					aload 6;
+					aload_2;
+					sconst_0;
+					invokeinterface 3 28 5;		// javacard/security/RSAPublicKey
+					sstore_3;
+					aload_1;
+					invokevirtual 22;		// setOutgoing()S
+					pop;
+					aload_1;
+					sload_3;
+					invokevirtual 23;		// setOutgoingLength(S)V
+					aload_1;
+					aload_2;
+					sconst_0;
+					sload_3;
+					invokevirtual 24;		// sendBytesLong([BSS)V
+				L42:	goto L46;
+				L43:	astore 6;
+					sspush 16962;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L46;
+				L44:	astore 6;
+					sspush 16963;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L46;
+				L45:	sspush 27904;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L46:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L5 L6 L7 14;
+				L5 L6 L8 48;
+				L5 L6 L19 15;
+				L20 L23 L24 14;
+				L20 L23 L25 48;
+				L20 L23 L36 15;
+				L37 L38 L39 14;
+				L37 L38 L40 15;
+				L41 L42 L43 14;
+				L41 L42 L44 15;
+			}
+		}
+
+	}
+
+	.class public PIN 1 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private boolean pin_retrieved 0;		// Z
+			private boolean puk_retrieved 1;		// Z
+			public static final byte CLA_MONAPPLET = -80;		// B
+			public static final byte INS_VERIF_PIN = 0;		// B
+			public static final byte INS_PIN_REMAINING_TRIES = 1;		// B
+			public static final byte INS_PUK_REMAINING_TRIES = 2;		// B
+			public static final byte INS_UNLOCK_WITH_PUK = 3;		// B
+			private static final byte INS_GET_PIN = 4;		// B
+			private static final byte INS_GET_PUK = 5;		// B
+			private static 0.9 pin;		// Ljavacard/framework/OwnerPIN;
+			private static 0.9 puk;		// Ljavacard/framework/OwnerPIN;
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method public static test_PIN([BSS)Z 0 {
+			.stack 4;
+			.locals 0;
+
+				L0:	getstatic_a 29;		// reference main/PIN.pin
+					aload_0;
+					sload_1;
+					sload_2;
+					s2b;
+					invokevirtual 30;		// check([BSB)Z
+					sreturn;
+		}
+
+		.method private <init>()V {
+			.stack 5;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 36;		// javacard/framework/Applet.<init>()V
+					new 31;		// javacard/framework/OwnerPIN
+					dup;
+					sconst_3;
+					sconst_2;
+					invokespecial 32;		// javacard/framework/OwnerPIN.<init>(BB)V
+					putstatic_a 29;		// reference main/PIN.pin
+					getstatic_a 29;		// reference main/PIN.pin
+					sconst_2;
+					newarray 11;
+					dup;
+					sconst_0;
+					bspush 15;
+					bastore;
+					dup;
+					sconst_1;
+					bspush 12;
+					bastore;
+					sconst_0;
+					sconst_2;
+					invokevirtual 33;		// update([BSB)V
+					new 31;		// javacard/framework/OwnerPIN
+					dup;
+					sconst_3;
+					sconst_4;
+					invokespecial 32;		// javacard/framework/OwnerPIN.<init>(BB)V
+					putstatic_a 34;		// reference main/PIN.puk
+					getstatic_a 34;		// reference main/PIN.puk
+					sconst_4;
+					newarray 11;
+					dup;
+					sconst_0;
+					bspush 15;
+					bastore;
+					dup;
+					sconst_1;
+					bspush 12;
+					bastore;
+					dup;
+					sconst_2;
+					bspush 45;
+					bastore;
+					dup;
+					sconst_3;
+					bspush 124;
+					bastore;
+					sconst_0;
+					sconst_4;
+					invokevirtual 33;		// update([BSB)V
+					aload_0;
+					sconst_0;
+					putfield_b 3;		// boolean main/PIN.pin_retrieved
+					aload_0;
+					sconst_0;
+					putfield_b 4;		// boolean main/PIN.puk_retrieved
+					return;
+		}
+
+		.method public static install([BSB)V 1 {
+			.stack 2;
+			.locals 0;
+
+				L0:	new 37;		// main/PIN
+					dup;
+					invokespecial 38;		// main/PIN.<init>()V
+					invokevirtual 39;		// register()V
+					return;
+		}
+
+		.method public static getState()S 2 {
+			.stack 1;
+			.locals 0;
+
+				L0:	getstatic_a 29;		// reference main/PIN.pin
+					invokevirtual 40;		// getTriesRemaining()B
+					ifne L2;
+				L1:	sspush 4661;
+					sreturn;
+				L2:	getstatic_a 29;		// reference main/PIN.pin
+					invokevirtual 41;		// isValidated()Z
+					ifne L4;
+				L3:	sspush 4660;
+					sreturn;
+				L4:	sspush -28672;
+					sreturn;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 5;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 16;		// getBuffer()[B
+					astore_2;
+					aload_0;
+					invokevirtual 43;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_2;
+					sconst_0;
+					baload;
+					bspush -80;
+					if_scmpeq L4;
+				L3:	sspush 28160;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	aload_2;
+					sconst_1;
+					baload;
+					stableswitch L24 0 5 L7 L5 L6 L11 L14 L19;
+				L5:	aload_2;
+					sconst_0;
+					getstatic_a 29;		// reference main/PIN.pin
+					invokevirtual 40;		// getTriesRemaining()B
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+					goto_w L25;
+				L6:	aload_2;
+					sconst_0;
+					getstatic_a 34;		// reference main/PIN.puk
+					invokevirtual 40;		// getTriesRemaining()B
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+					goto_w L25;
+				L7:	getstatic_a 29;		// reference main/PIN.pin
+					aload_2;
+					sconst_5;
+					aload_2;
+					sconst_2;
+					baload;
+					invokevirtual 30;		// check([BSB)Z
+					ifeq L9;
+				L8:	aload_2;
+					sconst_0;
+					sconst_1;
+					bastore;
+					goto L10;
+				L9:	aload_2;
+					sconst_0;
+					sconst_0;
+					bastore;
+				L10:	aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+					goto_w L25;
+				L11:	getstatic_a 34;		// reference main/PIN.puk
+					aload_2;
+					sconst_5;
+					aload_2;
+					sconst_2;
+					baload;
+					invokevirtual 30;		// check([BSB)Z
+					ifeq L13;
+				L12:	getstatic_a 29;		// reference main/PIN.pin
+					invokevirtual 44;		// resetAndUnblock()V
+					aload_2;
+					sconst_2;
+					invokestatic 45;		// main/gen_random.genRandom([BS)V
+					getstatic_a 29;		// reference main/PIN.pin
+					aload_2;
+					sconst_0;
+					sconst_2;
+					invokevirtual 33;		// update([BSB)V
+					aload_1;
+					sconst_0;
+					sconst_2;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+					goto_w L25;
+				L13:	aload_2;
+					sconst_2;
+					invokestatic 45;		// main/gen_random.genRandom([BS)V
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L25;
+				L14:	getfield_b_this 3;		// boolean main/PIN.pin_retrieved
+					ifne L18;
+				L15:	getstatic_a 29;		// reference main/PIN.pin
+					invokevirtual 44;		// resetAndUnblock()V
+					aload_2;
+					sconst_2;
+					invokestatic 45;		// main/gen_random.genRandom([BS)V
+					getstatic_a 29;		// reference main/PIN.pin
+					aload_2;
+					sconst_0;
+					sconst_2;
+					invokevirtual 33;		// update([BSB)V
+					aload_1;
+					sconst_0;
+					sconst_2;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+					aload_0;
+					sconst_1;
+					putfield_b 3;		// boolean main/PIN.pin_retrieved
+				L16:	goto L25;
+				L17:	astore_3;
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L25;
+				L18:	aload_2;
+					sconst_2;
+					invokestatic 45;		// main/gen_random.genRandom([BS)V
+					sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L25;
+				L19:	getfield_b_this 4;		// boolean main/PIN.puk_retrieved
+					ifne L23;
+				L20:	getstatic_a 34;		// reference main/PIN.puk
+					invokevirtual 44;		// resetAndUnblock()V
+					aload_2;
+					sconst_2;
+					invokestatic 45;		// main/gen_random.genRandom([BS)V
+					getstatic_a 34;		// reference main/PIN.puk
+					aload_2;
+					sconst_0;
+					sconst_2;
+					invokevirtual 33;		// update([BSB)V
+					aload_1;
+					sconst_0;
+					sconst_2;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+					aload_0;
+					sconst_1;
+					putfield_b 4;		// boolean main/PIN.puk_retrieved
+				L21:	goto L25;
+				L22:	astore_3;
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L25;
+				L23:	aload_2;
+					sconst_2;
+					invokestatic 45;		// main/gen_random.genRandom([BS)V
+					sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L25;
+				L24:	sspush 27904;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L25:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L15 L16 L17 42;
+				L20 L21 L22 42;
+			}
+		}
+
+	}
+
+	.class public StoreID 2 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private byte[] login 0;		// [B
+			private byte[] delimiter 1;		// [B
+			private byte[] pwd 2;		// [B
+			private byte[] tmpPwd 3;		// [B
+			private short[] dataLen 4;		// [S
+			private boolean[] unlocked 5;		// [Z
+			private static final byte CLA_STORE = -80;		// B
+			private static final byte INS_STORE_LOGIN = 0;		// B
+			private static final byte INS_STORE_PWD = 1;		// B
+			private static final byte INS_VALIDATE_PWD = 2;		// B
+			private static final byte INS_GET = 3;		// B
+			private static final byte INS_GET_PWD = 4;		// B
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 5;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 36;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					sconst_0;
+					newarray 11;
+					putfield_a 5;		// reference main/StoreID.login
+					aload_0;
+					sconst_1;
+					newarray 11;
+					dup;
+					sconst_0;
+					bspush 32;
+					bastore;
+					putfield_a 6;		// reference main/StoreID.delimiter
+					aload_0;
+					sconst_0;
+					newarray 11;
+					putfield_a 7;		// reference main/StoreID.pwd
+					aload_0;
+					sconst_0;
+					newarray 11;
+					putfield_a 8;		// reference main/StoreID.tmpPwd
+					aload_0;
+					sconst_1;
+					sconst_2;
+					invokestatic 50;		// javacard/framework/JCSystem.makeTransientShortArray(SB)[S
+					putfield_a 9;		// reference main/StoreID.dataLen
+					getfield_a_this 9;		// reference main/StoreID.dataLen
+					sconst_0;
+					sconst_0;
+					sastore;
+					aload_0;
+					sconst_1;
+					sconst_1;
+					invokestatic 52;		// javacard/framework/JCSystem.makeTransientBooleanArray(SB)[Z
+					putfield_a 10;		// reference main/StoreID.unlocked
+					getfield_a_this 10;		// reference main/StoreID.unlocked
+					sconst_0;
+					sconst_1;
+					bastore;
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 2;
+			.locals 0;
+
+				L0:	new 54;		// main/StoreID
+					dup;
+					invokespecial 55;		// main/StoreID.<init>()V
+					invokevirtual 56;		// register()V
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 6;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 16;		// getBuffer()[B
+					astore_2;
+					aload_0;
+					invokevirtual 60;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	invokestatic 26;		// main/PIN.getState()S
+					sspush -28672;
+					if_scmpne_w L39;
+				L3:	aload_2;
+					sconst_0;
+					baload;
+					bspush -80;
+					if_scmpeq L5;
+				L4:	sspush 28160;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L5:	aload_2;
+					sconst_1;
+					baload;
+					stableswitch L38 0 4 L6 L12 L18 L26 L32;
+				L6:	getfield_a_this 9;		// reference main/StoreID.dataLen
+					sconst_0;
+					aload_1;
+					invokevirtual 18;		// setIncomingAndReceive()S
+					sastore;
+					aload_0;
+					getfield_a_this 9;		// reference main/StoreID.dataLen
+					sconst_0;
+					saload;
+					newarray 11;
+					putfield_a 5;		// reference main/StoreID.login
+					aload_2;
+					sconst_5;
+					getfield_a_this 5;		// reference main/StoreID.login
+					sconst_0;
+					getfield_a_this 9;		// reference main/StoreID.dataLen
+					sconst_0;
+					saload;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					aload_2;
+					sconst_0;
+					sconst_1;
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+				L7:	goto_w L40;
+				L8:	astore_3;
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L9:	astore_3;
+					sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L10:	astore_3;
+					sconst_3;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L11:	astore_3;
+					sconst_4;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L12:	getfield_a_this 9;		// reference main/StoreID.dataLen
+					sconst_0;
+					aload_1;
+					invokevirtual 18;		// setIncomingAndReceive()S
+					sastore;
+					aload_0;
+					getfield_a_this 9;		// reference main/StoreID.dataLen
+					sconst_0;
+					saload;
+					newarray 11;
+					putfield_a 8;		// reference main/StoreID.tmpPwd
+					aload_2;
+					sconst_5;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					sconst_0;
+					getfield_a_this 9;		// reference main/StoreID.dataLen
+					sconst_0;
+					saload;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					aload_2;
+					sconst_0;
+					sconst_1;
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+				L13:	goto_w L40;
+				L14:	astore_3;
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L15:	astore_3;
+					sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L16:	astore_3;
+					sconst_3;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L17:	astore_3;
+					sconst_4;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L18:	getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					arraylength;
+					ifle L20;
+				L19:	aload_0;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					arraylength;
+					newarray 11;
+					putfield_a 7;		// reference main/StoreID.pwd
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					sconst_0;
+					getfield_a_this 7;		// reference main/StoreID.pwd
+					sconst_0;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					arraylength;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					aload_0;
+					sconst_0;
+					newarray 11;
+					putfield_a 8;		// reference main/StoreID.tmpPwd
+					aload_2;
+					sconst_0;
+					sconst_1;
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+					goto_w L40;
+				L20:	aload_2;
+					sconst_0;
+					sconst_0;
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+				L21:	goto_w L40;
+				L22:	astore_3;
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L23:	astore_3;
+					sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L24:	astore_3;
+					sconst_3;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L25:	astore_3;
+					sconst_4;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto_w L40;
+				L26:	getfield_a_this 5;		// reference main/StoreID.login
+					sconst_0;
+					aload_2;
+					sconst_0;
+					getfield_a_this 5;		// reference main/StoreID.login
+					arraylength;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					sconst_0;
+					aload_2;
+					getfield_a_this 5;		// reference main/StoreID.login
+					arraylength;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					arraylength;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					sconst_0;
+					aload_2;
+					getfield_a_this 5;		// reference main/StoreID.login
+					arraylength;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					arraylength;
+					sadd;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					arraylength;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					sconst_0;
+					aload_2;
+					getfield_a_this 5;		// reference main/StoreID.login
+					arraylength;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					arraylength;
+					sadd;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					arraylength;
+					sadd;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					arraylength;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					getfield_a_this 7;		// reference main/StoreID.pwd
+					sconst_0;
+					aload_2;
+					getfield_a_this 5;		// reference main/StoreID.login
+					arraylength;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					arraylength;
+					sconst_2;
+					smul;
+					sadd;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					arraylength;
+					sadd;
+					getfield_a_this 7;		// reference main/StoreID.pwd
+					arraylength;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					aload_1;
+					invokevirtual 22;		// setOutgoing()S
+					pop;
+					aload_1;
+					getfield_a_this 5;		// reference main/StoreID.login
+					arraylength;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					arraylength;
+					sconst_2;
+					smul;
+					sadd;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					arraylength;
+					sadd;
+					getfield_a_this 7;		// reference main/StoreID.pwd
+					arraylength;
+					sadd;
+					invokevirtual 23;		// setOutgoingLength(S)V
+					aload_1;
+					aload_2;
+					sconst_0;
+					getfield_a_this 5;		// reference main/StoreID.login
+					arraylength;
+					getfield_a_this 6;		// reference main/StoreID.delimiter
+					arraylength;
+					sconst_2;
+					smul;
+					sadd;
+					getfield_a_this 8;		// reference main/StoreID.tmpPwd
+					arraylength;
+					sadd;
+					getfield_a_this 7;		// reference main/StoreID.pwd
+					arraylength;
+					sadd;
+					invokevirtual 24;		// sendBytesLong([BSS)V
+				L27:	goto L40;
+				L28:	astore_3;
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L29:	astore_3;
+					sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L30:	astore_3;
+					sconst_3;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L31:	astore_3;
+					sconst_4;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L32:	getfield_a_this 7;		// reference main/StoreID.pwd
+					sconst_0;
+					aload_2;
+					sconst_0;
+					getfield_a_this 7;		// reference main/StoreID.pwd
+					arraylength;
+					invokestatic 61;		// javacard/framework/Util.arrayCopy([BS[BSS)S
+					pop;
+					aload_1;
+					invokevirtual 22;		// setOutgoing()S
+					pop;
+					aload_1;
+					getfield_a_this 7;		// reference main/StoreID.pwd
+					arraylength;
+					invokevirtual 23;		// setOutgoingLength(S)V
+					aload_1;
+					aload_2;
+					sconst_0;
+					getfield_a_this 7;		// reference main/StoreID.pwd
+					arraylength;
+					invokevirtual 24;		// sendBytesLong([BSS)V
+				L33:	goto L40;
+				L34:	astore_3;
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L35:	astore_3;
+					sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L36:	astore_3;
+					sconst_3;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L37:	astore_3;
+					sconst_4;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L38:	sspush 27904;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L40;
+				L39:	aload_2;
+					sconst_0;
+					sconst_m1;
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+				L40:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L6 L7 L8 14;
+				L6 L7 L9 57;
+				L6 L7 L10 58;
+				L6 L7 L11 59;
+				L12 L13 L14 14;
+				L12 L13 L15 57;
+				L12 L13 L16 58;
+				L12 L13 L17 59;
+				L18 L21 L22 14;
+				L18 L21 L23 57;
+				L18 L21 L24 58;
+				L18 L21 L25 59;
+				L26 L27 L28 14;
+				L26 L27 L29 57;
+				L26 L27 L30 58;
+				L26 L27 L31 59;
+				L32 L33 L34 14;
+				L32 L33 L35 57;
+				L32 L33 L36 58;
+				L32 L33 L37 59;
+			}
+		}
+
+	}
+
+	.class public gen_random 3 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private short[] lg 0;		// [S
+			public static final byte CLA_MONAPPLET = -80;		// B
+			public static final byte INS_NOUVEL_ALEA = 0;		// B
+			private static 1.14 rng;		// Ljavacard/security/RandomData;
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 3;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 36;		// javacard/framework/Applet.<init>()V
+					sconst_2;
+					invokestatic 62;		// javacard/security/RandomData.getInstance(B)Ljavacard/security/RandomData;
+					putstatic_a 63;		// reference main/gen_random.rng
+					aload_0;
+					bspush 8;
+					sconst_1;
+					invokestatic 50;		// javacard/framework/JCSystem.makeTransientShortArray(SB)[S
+					putfield_a 11;		// reference main/gen_random.lg
+					getfield_a_this 11;		// reference main/gen_random.lg
+					sconst_0;
+					sconst_0;
+					sastore;
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 2;
+			.locals 1;
+
+				L0:	new 67;		// main/gen_random
+					dup;
+					invokespecial 68;		// main/gen_random.<init>()V
+					invokevirtual 69;		// register()V
+				L1:	goto L4;
+				L2:	astore_3;
+					bspush 66;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L4;
+				L3:	astore_3;
+					bspush 67;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L0 L1 L2 65;
+				L0 L1 L3 66;
+			}
+		}
+
+		.method public static genRandom([BS)V 1 {
+			.stack 4;
+			.locals 1;
+
+				L0:	sconst_2;
+					invokestatic 62;		// javacard/security/RandomData.getInstance(B)Ljavacard/security/RandomData;
+					putstatic_a 63;		// reference main/gen_random.rng
+					getstatic_a 63;		// reference main/gen_random.rng
+					aload_0;
+					sconst_0;
+					sload_1;
+					invokevirtual 70;		// generateData([BSS)V
+				L1:	goto L13;
+				L2:	astore_2;
+					aload_2;
+					invokevirtual 25;		// getReason()S
+					sconst_5;
+					if_scmpne L4;
+				L3:	sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L13;
+				L4:	aload_2;
+					invokevirtual 25;		// getReason()S
+					sconst_1;
+					if_scmpne L6;
+				L5:	sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L13;
+				L6:	aload_2;
+					invokevirtual 25;		// getReason()S
+					sconst_4;
+					if_scmpne L8;
+				L7:	sconst_3;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L13;
+				L8:	aload_2;
+					invokevirtual 25;		// getReason()S
+					sconst_3;
+					if_scmpne L10;
+				L9:	sconst_4;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L13;
+				L10:	aload_2;
+					invokevirtual 25;		// getReason()S
+					sconst_2;
+					if_scmpne L12;
+				L11:	sconst_5;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L13;
+				L12:	bspush 6;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L13:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L0 L1 L2 48;
+			}
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 5;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 16;		// getBuffer()[B
+					astore_2;
+					aload_0;
+					invokevirtual 71;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_2;
+					sconst_0;
+					baload;
+					bspush -80;
+					if_scmpeq L4;
+				L3:	sspush 28160;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	aload_2;
+					sconst_1;
+					baload;
+					stableswitch L12 0 0 L5;
+				L5:	getfield_a_this 11;		// reference main/gen_random.lg
+					sconst_0;
+					aload_2;
+					sconst_2;
+					baload;
+					sastore;
+				L6:	getstatic_a 63;		// reference main/gen_random.rng
+					aload_2;
+					sconst_0;
+					getfield_a_this 11;		// reference main/gen_random.lg
+					sconst_0;
+					saload;
+					invokevirtual 70;		// generateData([BSS)V
+				L7:	goto L9;
+				L8:	astore_3;
+					sconst_1;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L9:	aload_1;
+					sconst_0;
+					getfield_a_this 11;		// reference main/gen_random.lg
+					sconst_0;
+					saload;
+					invokevirtual 27;		// setOutgoingAndSend(SS)V
+				L10:	goto L13;
+				L11:	astore_3;
+					sconst_2;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+					goto L13;
+				L12:	sspush 28160;
+					invokestatic 53;		// javacard/framework/ISOException.throwIt(S)V
+				L13:	return;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L6 L7 L8 48;
+				L9 L10 L11 14;
+			}
+		}
+
+	}
+
+}

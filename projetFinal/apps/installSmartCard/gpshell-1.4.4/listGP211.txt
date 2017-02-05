@@ -1,0 +1,11 @@
+mode_211
+enable_trace
+establish_context
+card_connect 
+select -AID A000000018434D00  
+open_sc -security 3  -keyind 0 -keyver 0 -key 47454D5850524553534F53414D504C45 -keyDerivation visa2 // Open secure channel
+get_status -element 10
+get_status -element 20
+get_status -element 40
+card_disconnect
+release_context
